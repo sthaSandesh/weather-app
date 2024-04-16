@@ -1,15 +1,9 @@
-import { Hero } from "@/components/hero/Hero";
-import { Card } from "@/components/ui/card";
-import Image from "next/image";
+import Weather from "@/components/weather/Weather";
 
 export default function Home() {
   return (
     <main>
-      <Hero image="/view.jpg">
-        <section>
-          <Card></Card>
-        </section>
-      </Hero>
+      <Weather />
     </main>
   );
 }
