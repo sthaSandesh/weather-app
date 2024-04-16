@@ -12,15 +12,29 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-
 import React from "react";
+
+// const API_KEY = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
+const API_KEY = "e45ddd08d55ff54f4c145fe0060e5cab";
 
 export default function Weather() {
   const [city, setCity] = useState<string>("");
+  const [weatherData, setWeatherData] = useState<any>({});
+
   console.log(city);
 
   async function getWeather() {
     console.log("get weather");
+    try {
+      const res = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`
+      );
+      const data = await res.json();
+      console.log(data);
+      setWeatherData(data);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (
