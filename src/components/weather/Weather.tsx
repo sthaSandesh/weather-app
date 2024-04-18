@@ -26,11 +26,16 @@ export default function Weather() {
   async function getWeather() {
     console.log("get weather");
     try {
-      const res = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`
+      const response = await fetch(
+        "https://api.openweathermap.org/data/2.5/weather?" +
+          "q=" +
+          city +
+          "&appid=" +
+          API_KEY +
+          "&units=metric"
       );
-      const data = await res.json();
-      console.log(data);
+      const data = await response.json();
+      if (data?.cod == "400") throw data;
       setWeatherData(data);
     } catch (err) {
       console.log(err);
@@ -66,6 +71,7 @@ export default function Weather() {
               Get
             </Button>
           </CardFooter>
+          {Object.keys(weatherData).length !== 0 ? <></> : null}
         </Card>
       </section>
     </Hero>
