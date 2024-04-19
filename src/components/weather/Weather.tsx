@@ -21,10 +21,7 @@ export default function Weather() {
   const [city, setCity] = useState<string>("");
   const [weatherData, setWeatherData] = useState<any>({});
 
-  console.log(city);
-
   async function getWeather() {
-    console.log("get weather");
     try {
       const response = await fetch(
         "https://api.openweathermap.org/data/2.5/weather?" +
@@ -66,12 +63,43 @@ export default function Weather() {
               </div>
             </form>
           </CardContent>
+          {Object.keys(weatherData).length !== 0 ? (
+            <>
+              <div className="font-bold text-xl text-muted-foreground flex flex-col items-center">
+                {weatherData.name} Weather
+                <img
+                  src={
+                    "http://openweathermap.org/img/wn/" +
+                    weatherData.weather[0].icon +
+                    ".png"
+                  }
+                  width="80px"
+                  height="80px"
+                  alt="weatherIcon"
+                />
+                <p>{weatherData.weather[0].main}</p>
+              </div>
+              <div className="flex px-8 py-4 gap-6 text-muted-foreground text-start">
+                <div>
+                  <h2>Current Temp :</h2>
+                  <h2>Max Temp :</h2>
+                  <h2>Min Temp :</h2>
+                  <h2>Windspeed :</h2>
+                </div>
+                <div className="font-semibold">
+                  <p> {weatherData.main.temp}&deg; c</p>
+                  <p> {weatherData.main.temp_max}&deg; c</p>
+                  <p> {weatherData.main.temp_min}&deg; c</p>
+                  <p> {weatherData.wind.speed} km/hr</p>
+                </div>
+              </div>
+            </>
+          ) : null}
           <CardFooter className="flex justify-between">
             <Button variant="outline" onClick={() => getWeather()}>
               Get
             </Button>
           </CardFooter>
-          {Object.keys(weatherData).length !== 0 ? <></> : null}
         </Card>
       </section>
     </Hero>
