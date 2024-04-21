@@ -14,8 +14,7 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import React from "react";
 
-// const API_KEY = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
-const API_KEY = "e45ddd08d55ff54f4c145fe0060e5cab";
+const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 
 export default function Weather() {
   const [city, setCity] = useState<string>("");
@@ -50,7 +49,12 @@ export default function Weather() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                getWeather();
+              }}
+            >
               <div className="grid w-full items-center gap-4">
                 <div className="flex flex-col space-y-1.5 items-start">
                   <Label htmlFor="name">City Name</Label>
@@ -65,34 +69,38 @@ export default function Weather() {
           </CardContent>
           {Object.keys(weatherData).length !== 0 ? (
             <>
-              <div className="font-bold text-xl text-muted-foreground flex flex-col items-center">
-                {weatherData.name} Weather
-                <img
-                  src={
-                    "http://openweathermap.org/img/wn/" +
-                    weatherData.weather[0].icon +
-                    ".png"
-                  }
-                  width="80px"
-                  height="80px"
-                  alt="weatherIcon"
-                />
-                <p>{weatherData.weather[0].main}</p>
-              </div>
-              <div className="flex px-8 py-4 gap-6 text-muted-foreground text-start">
-                <div>
-                  <h2>Current Temp :</h2>
-                  <h2>Max Temp :</h2>
-                  <h2>Min Temp :</h2>
-                  <h2>Windspeed :</h2>
+              {weatherData && weatherData.weather && (
+                <div className="font-bold text-xl text-muted-foreground flex flex-col items-center">
+                  {weatherData.name} Weather
+                  <img
+                    src={
+                      "http://openweathermap.org/img/wn/" +
+                      weatherData.weather[0].icon +
+                      ".png"
+                    }
+                    width="80px"
+                    height="80px"
+                    alt="weatherIcon"
+                  />
+                  <p>{weatherData.weather[0].main}</p>
                 </div>
-                <div className="font-semibold">
-                  <p> {weatherData.main.temp}&deg; c</p>
-                  <p> {weatherData.main.temp_max}&deg; c</p>
-                  <p> {weatherData.main.temp_min}&deg; c</p>
-                  <p> {weatherData.wind.speed} km/hr</p>
+              )}
+              {weatherData && weatherData.main && weatherData.wind && (
+                <div className="flex px-8 py-4 gap-6 text-muted-foreground text-start">
+                  <div>
+                    <h2>Current Temp :</h2>
+                    <h2>Max Temp :</h2>
+                    <h2>Min Temp :</h2>
+                    <h2>Windspeed :</h2>
+                  </div>
+                  <div className="font-semibold">
+                    <p> {weatherData.main.temp}&deg; c</p>
+                    <p> {weatherData.main.temp_max}&deg; c</p>
+                    <p> {weatherData.main.temp_min}&deg; c</p>
+                    <p> {weatherData.wind.speed} km/hr</p>
+                  </div>
                 </div>
-              </div>
+              )}
             </>
           ) : null}
           <CardFooter className="flex justify-between">
