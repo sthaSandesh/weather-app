@@ -14,8 +14,7 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import React from "react";
 
-// const API_KEY = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
-const API_KEY = "e45ddd08d55ff54f4c145fe0060e5cab";
+const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 
 export default function Weather() {
   const [city, setCity] = useState<string>("");
